@@ -5,15 +5,19 @@ const initialGameBoard = [
   [null, null, null],
   [null, null, null],
 ];
-const GameBoard = () => {
+const GameBoard = ({ selectedSquare, activePlayer }) => {
   const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
   const handleGameBoard = (rowIndex, colIndex) => {
     setGameBoard(prevGameBoard => {
       const updatedGameBoard = prevGameBoard.map(row => [...row]);
-      updatedGameBoard[rowIndex][colIndex] = 'X';
+
+      updatedGameBoard[rowIndex][colIndex] = activePlayer;
+
       return updatedGameBoard;
     });
+
+    selectedSquare();
   };
 
   return (
