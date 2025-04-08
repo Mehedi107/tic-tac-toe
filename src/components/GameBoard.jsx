@@ -10,9 +10,7 @@ const GameBoard = () => {
 
   const handleGameBoard = (rowIndex, colIndex) => {
     setGameBoard(prevGameBoard => {
-      const updatedGameBoard = [
-        ...prevGameBoard.map(innerGameBoard => [...innerGameBoard]),
-      ];
+      const updatedGameBoard = prevGameBoard.map(row => [...row]);
       updatedGameBoard[rowIndex][colIndex] = 'X';
       return updatedGameBoard;
     });
