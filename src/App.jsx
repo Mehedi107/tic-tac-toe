@@ -22,8 +22,6 @@ function App() {
         ...prevTurns,
       ];
 
-      console.log('turns', updatedTurns);
-
       return updatedTurns;
     });
   };
@@ -38,7 +36,7 @@ function App() {
 
         <GameBoard selectedSquare={handleSelectedSquare} turns={gameTurns} />
       </div>
-      <Log />
+      <Log turns={gameTurns} />
     </main>
   );
 }
