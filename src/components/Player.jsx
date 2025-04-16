@@ -1,10 +1,16 @@
 import { useState } from 'react';
 
-const Player = ({ name, symbol, isActive }) => {
+const Player = ({ name, symbol, isActive, onChangeName }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(name);
 
-  const handleEditBtn = () => setIsEditing(editing => !editing);
+  function handleEditBtn() {
+    setIsEditing(editing => !editing);
+
+    if (isEditing) {
+      onChangeName(symbol, playerName);
+    }
+  }
   const handleChangeName = e => setPlayerName(e.target.value);
 
   let nameLabel = <span className="player-name">{playerName}</span>;

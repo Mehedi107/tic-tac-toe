@@ -15,13 +15,14 @@ const deriveGameTurns = gameTurn => {
   let currentPlayer = 'X';
 
   if (gameTurn.length > 0 && gameTurn[0].player === 'X') {
-    currentPlayer = '0';
+    currentPlayer = 'O';
   }
 
   return currentPlayer;
 };
 
 function App() {
+  const [players, setPlayers] = useState({ X: 'Player 1', O: 'Player 2' });
   const [gameTurns, setGameTurns] = useState([]);
   const activePlayer = deriveGameTurns(gameTurns);
   let gameBoard = [...initialGameBoard.map(array => [...array])];
@@ -48,13 +49,13 @@ function App() {
       firstSquareSymbol === secondSquareSymbol &&
       firstSquareSymbol === thirdSquareSymbol
     ) {
-      winner = firstSquareSymbol;
+      winner = players[firstSquareSymbol];
     }
   }
 
   const hasWinner = gameTurns.length === 9 && !winner;
 
-  const handleSelectedSquare = (rowIndex, colIndex) => {
+  function handleSelectedSquare(rowIndex, colIndex) {
     setGameTurns(prevTurns => {
       const currentPlayer = deriveGameTurns(prevTurns);
 
@@ -65,18 +66,37 @@ function App() {
 
       return updatedTurns;
     });
-  };
+  }
 
-  const resetGame = () => {
+  function resetGame() {
     setGameTurns([]);
-  };
+  }
+
+  function handleChangePlayerName(symbol, newPlayerName) {
+    setPlayers(prevPlayer => {
+      return {
+        ...prevPlayer,
+        [symbol]: newPlayerName,
+      };
+    });
+  }
 
   return (
     <main>
       <div id="game-container">
         <ol id="players" className="highlight-player">
-          <Player name="Player 1" symbol="X" isActive={activePlayer === 'X'} />
-          <Player name="Player 2" symbol="0" isActive={activePlayer === '0'} />
+          <Player
+            name="Player 1"
+            symbol="X"
+            isActive={activePlayer === 'X'}
+            onChangeName={handleChangePlayerName}
+          />
+          <Player
+            name="Player 2"
+            symbol="O"
+            isActive={activePlayer === 'O'}
+            onChangeName={handleChangePlayerName}
+          />
         </ol>
         {(winner || hasWinner) && (
           <GameOver winner={winner} reset={resetGame} />
